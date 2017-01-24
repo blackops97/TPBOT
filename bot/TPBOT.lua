@@ -201,7 +201,7 @@ function create_config( )
     "info",
     "lock_kds"
     },
-    sudo_users = {219844437,0},--Sudo users
+    sudo_users = {294227557,0},--Sudo users
     moderation = {data = 'data/moderation.json'},
     about_text = [[]],
     help_text_realm = [[]],

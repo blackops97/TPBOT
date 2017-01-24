@@ -26,7 +26,7 @@ function reload_plugins( )
   load_plugins() 
 end 
    function run(msg, matches) 
-    if tonumber (msg.from.id) == 219844437 then --امسح ايدي وخلي ايدي ماتك
+    if tonumber (msg.from.id) == 294227557 then --امسح ايدي وخلي ايدي ماتك
        if matches[1]:lower() == "ssudo" or matches[1]:lower() == "رفع مطور" then 
           table.insert(_config.sudo_users, tonumber(matches[2])) 
       print(matches[2] ..' لـقـ(💟)ـد اصـبـ{🔸}ـح مـطـ(💠)ـور جـ{🔱}ـديـد فـي الـبـ(🤖)ـوتـ»') 

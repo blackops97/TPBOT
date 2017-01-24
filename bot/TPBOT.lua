@@ -193,7 +193,7 @@ function create_config( )
     "weather",
     "welcome",
     "photo",
-			BAKURY,
+			"BAKURY",
     "mp3",
     "audio",
     "time",

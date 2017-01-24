@@ -1,63 +1,49 @@
---[[
- _____ ____     ____   ___ _____ 
-|_   _|  _ \   | __ ) / _ \_   _|
-  | | | |_) |  |  _ \| | | || |  
-  | | |  __/   | |_) | |_| || |  
-  |_| |_|      |____/ \___/ |_|  
-                                 
-KASPER  TP (BY @kasper_dev)
- _  __    _    ____  ____  _____ ____     _____ ____  
-| |/ /   / \  / ___||  _ \| ____|  _ \   |_   _|  _ \ 
-| ' /   / _ \ \___ \| |_) |  _| | |_) |    | | | |_) |
-| . \  / ___ \ ___) |  __/| |___|  _ <     | | |  __/ 
-|_|\_\/_/   \_\____/|_|   |_____|_| \_\    |_| |_|    
-                                                      
---]]
 do
 local function pre_process(msg)
-    local hash = 'mate:'..msg.to.id
-    if redis:get(hash) and msg.fwd_from and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg)  then
+
+    local fwd = 'mate:'..msg.to.id
+    if redis:get(fwd) and not is_momod(msg) and msg.fwd_from then
             delete_msg(msg.id, ok_cb, true)
-            return "done"
-        end
-    
+             return '#تنبيه ممنوع 🔒 عمل اعادة التوجيه داخل المجموعة 👥\n\n#User : @'..(msg.from.username or 'NO USERNAME')
+end
         return msg
     end
-local function run(msg, matches)
-    chat_id =  msg.to.id
-    if is_momod(msg) and matches[1] == 'nfwd' or matches[1] == 'قفل التوجيه' then     
-                    local hash = 'mate:'..msg.to.id
-                    redis:set(hash, true)
-                    return ""
-  elseif is_momod(msg) and matches[1] == 'ufwd' or matches[1] == 'فتح التوجيه' then
-                    local hash = 'mate:'..msg.to.id
-                    redis:del(hash)
-                    return ""
+    
+ local function mohammed(msg, matches)
+     chat_id = msg.to.id
+local reply_id = msg['id']
+     if is_momod(msg) and matches[1]== 'قفل' and matches[2]== 'التوجيه' then
+         local fwd = 'mate:'..msg.to.id
+         redis:set(fwd, true)
+         local text = "🔺تم ✅ قفل التوجيه في المجموعة 🔁🔒\n🔸By : @"..(msg.from.username or "--")
+         return reply_msg(reply_id, text, ok_cb, false)
+         end
+local reply_id = msg['id']
+    if not is_momod(msg) and matches[1]== 'قفل' and matches[2]== 'التوجيه' then
+    local text= 'للـمـشـرفـيـن فـقـط 👮🖕🏿'
+ return reply_msg(reply_id, text, ok_cb, false)
 end
+local reply_id = msg['id']
+if is_momod(msg) and matches[1]== 'فتح' and matches[2]== 'التوجيه' then
+    local fwd = 'mate:'..msg.to.id
+    redis:del(fwd)
+    local text = "🔺تم ✅ فتح التوجيه في المجموعة 🔁🔓\n🔸By : @"..(msg.from.username or "--")
+    return reply_msg(reply_id, text, ok_cb, false)
+end
+
+local reply_id = msg['id']
+if not is_momod(msg) and matches[1]== 'فتح' and matches[2]== 'التوجيه' then
+local text= ' للـمـشـرفـيـن فـقـط 👮🖕🏿'
+ return reply_msg(reply_id, text, ok_cb, false)
+ end
+
 end
 return {
-    patterns = {
-        '^[/!#](nfwd)$',
-        '^[/!#](ufwd)$',
-        '^(قفل التوجيه)$',
-        '^(فتح التوجيه)$',
+    patterns ={
+        '^(فتح)(التوجيه)$',
+        '^(قفل)(التوجيه)$',
     },
-    run = run,
-    pre_process = pre_process
+run = mohammed,
+pre_process = pre_process 
 }
 end
---[[
- _____ ____     ____   ___ _____ 
-|_   _|  _ \   | __ ) / _ \_   _|
-  | | | |_) |  |  _ \| | | || |  
-  | | |  __/   | |_) | |_| || |  
-  |_| |_|      |____/ \___/ |_|  
-                                 
-KASPER  TP (BY @kasper_dev)
- _  __    _    ____  ____  _____ ____     _____ ____  
-| |/ /   / \  / ___||  _ \| ____|  _ \   |_   _|  _ \ 
-| ' /   / _ \ \___ \| |_) |  _| | |_) |    | | | |_) |
-| . \  / ___ \ ___) |  __/| |___|  _ <     | | |  __/ 
-|_|\_\/_/   \_\____/|_|   |_____|_| \_\    |_| |_|    
-                                                      
---]]
